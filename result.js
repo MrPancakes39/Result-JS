@@ -92,6 +92,34 @@ class Result {
     }
 
     /**
+     * Runs closure if self is Ok.
+     *
+     * Example:
+     * ```js
+     * Ok(1).if_ok(x => console.log(x));  // prints 1
+     * Err(1).if_ok(x => console.log(x)); // doesn't print
+     * ```
+     * @param {Function} f
+     */
+    if_ok(f) {
+        if (this.is_ok()) f(this.unwrap());
+    }
+
+    /**
+     * Runs closure if self is Err.
+     *
+     * Example:
+     * ```js
+     * Err(1).if_err(x => console.log(x)); // prints 1
+     * Ok(1).if_err(x => console.log(x));  // doesn't print
+     * ```
+     * @param {Function} f
+     */
+    if_err(f) {
+        if (this.is_err()) f(this.unwrap_err());
+    }
+
+    /**
      * This method tests for self and other values to be equal.
      *
      * Throws an Error if other is not a Result.
