@@ -65,6 +65,19 @@ class Result {
     }
 
     /**
+     * Like promisify but for Results.
+     *
+     * Converts a function to return an Err if an Error occured otherwise an Ok.
+     * @param {Function} f
+     * @returns {(...) => Result}
+     */
+    static resultify(f) {
+        return (...args) => {
+            return Result.catch(() => f(...args));
+        };
+    }
+
+    /**
      * Prints to the console Ok(T) (if Ok), or Err(E) (if Err).
      */
     print() {
@@ -345,6 +358,6 @@ class Result {
     }
 }
 
-const { Ok, Err } = Result;
+const { Ok, Err, resultify } = Result;
 const Rcatch = Result.catch;
-export { Result, Ok, Err, Rcatch };
+export { Result, Ok, Err, Rcatch, resultify };
