@@ -56,6 +56,7 @@ class Result {
     }
 
     equals(res) {
+        Result.#assertResult(res);
         if (this.is_ok() !== res.is_ok()) {
             return false;
         }
