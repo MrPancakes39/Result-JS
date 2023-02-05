@@ -174,7 +174,7 @@ class Result {
 
     map(op) {
         if (this.is_err()) return this;
-        return new Result("ok", op(this.#value));
+        return Result.Ok(op(this.#value));
     }
 
     map_or(defval, func) {
@@ -189,7 +189,7 @@ class Result {
 
     map_err(op) {
         if (this.is_ok()) return this;
-        return new Result("err", op(this.#error));
+        return Result.Err(op(this.#error));
     }
 }
 
