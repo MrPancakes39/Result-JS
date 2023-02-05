@@ -171,4 +171,5 @@ class Result {
     }
 }
 
-export default Result;
+const { Ok, Err } = Result;
+export { Result, Ok, Err };
