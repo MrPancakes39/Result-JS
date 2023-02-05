@@ -36,6 +36,14 @@ class Result {
         return new Result("err", E);
     }
 
+    static catch(func) {
+        try {
+            return Result.Ok(func());
+        } catch (error) {
+            return Result.Err(error);
+        }
+    }
+
     print() {
         switch (this.is_ok()) {
             case true:
@@ -186,4 +194,5 @@ class Result {
 }
 
 const { Ok, Err } = Result;
-export { Result, Ok, Err };
+const Rcatch = Result.catch;
+export { Result, Ok, Err, Rcatch };
