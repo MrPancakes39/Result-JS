@@ -74,16 +74,27 @@ class Result {
         return this.is_err() && func(this.#error);
     }
 
+    #panic(msg, method_name, is_value = false) {
+        const check = is_value ? this.#value : this.#error;
+        if (check instanceof Error) {
+            console.error(msg);
+            throw check;
+        } else {
+            console.error(`${msg}:`, check);
+            throw new Error(`Unhandled ${method_name}.`);
+        }
+    }
+
     expect(msg) {
         if (this.is_err()) {
-            throw new Error(`Panicked at '${msg}': "${this.#error}".`);
+            this.#panic(`Panicked at '${msg}'`, "expect");
         }
         return this.#value;
     }
 
     unwrap() {
         if (this.is_err()) {
-            throw new Error(`Panicked while unwrapping a Result::Err \`${this.#error}\`.`);
+            this.#panic(`Panicked while unwrapping a Result::Err`, "unwrap");
         }
         return this.#value;
     }
@@ -100,14 +111,14 @@ class Result {
 
     expect_err(msg) {
         if (this.is_ok()) {
-            throw new Error(`Panicked at '${msg}': "${this.#value}".`);
+            this.#panic(`Panicked at '${msg}'`, "expect_err", true);
         }
         return this.#error;
     }
 
     unwrap_err() {
         if (this.is_ok()) {
-            throw new Error(`Panicked while unwrapping a Result::Ok \`${this.#value}\`.`);
+            this.#panic("Panicked while unwrapping a Result::Ok", "unwrap_err", true);
         }
         return this.#error;
     }
