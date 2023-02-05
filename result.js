@@ -28,6 +28,14 @@ class Result {
         }
     }
 
+    static Ok(V) {
+        return new Result("ok", V);
+    }
+
+    static Err(E) {
+        return new Result("err", E);
+    }
+
     print() {
         switch (this.is_ok()) {
             case true:
@@ -163,5 +171,4 @@ class Result {
     }
 }
 
-const Ok = (x) => new Result("ok", x);
-const Err = (x) => new Result("err", x);
+export default Result;
