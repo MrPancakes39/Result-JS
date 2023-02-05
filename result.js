@@ -81,7 +81,10 @@ class Result {
             throw check;
         } else {
             console.error(`${msg}:`, check);
-            throw new Error(`Unhandled ${method_name}.`);
+            const tmp = new Error(`Unhandled ${method_name}.`);
+            // removes #panic from the error stack
+            tmp.stack = tmp.stack.split("\n").slice(1).join("\n");
+            throw tmp;
         }
     }
 
